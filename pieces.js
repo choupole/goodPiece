@@ -75,7 +75,63 @@ boutonTrier.addEventListener("click", function () {
     console.log(piecesDescription);
  });
 
+// utilisation de la fonction map pour récuperer la liste de noms de chaque articles 
+// // Fonction lambda
+// piece => piece.nom
 
+// // Fonction normale
+// function (piece) {
+//     return piece.nom;
+// }
+const noms = pieces.map(piece => piece.nom);
+for(let i = pieces.length -1 ; i >= 0; i--){
+   if(pieces[i].prix > 35){
+       noms.splice(i,1)
+   }
+}
+
+//création de la liste 
+const abordablesElements = document.createElement("ul");
+
+// ajout de chaque nom à la liste 
+for(let i=0; noms.length > i; i++) {
+    const nomElement = document.createElement("li");
+    nomElement.innerText = noms[i];
+    abordablesElements.appendChild(nomElement);
+}
+
+// ajout de l'en-tête puis de la liste au bloc résultats filtres 
+document.querySelector(".abordables").appendChild(abordablesElements);
+
+
+//  correction de l'exercice
+const nomsDispo = pieces.map(piece => piece.nom);
+const prixDispo = pieces.map(piece => piece.prix);
+for(let i=0; pieces.length > i; i++) {
+    if(pieces[i].disponibilite !== true){
+        nomsDispo.splice(i,1);
+        prixDispo.splice(i,1);
+    }
+}
+console.log(nomsDispo);
+console.log(prixDispo);
+
+//création de la liste 
+const disponibleElement = document.createElement("ul");
+
+// ajout de chaque nom à la liste 
+for(let i=0; nomsDispo.length > i; i++) {
+    const nomElement = document.createElement("li");
+    nomElement.innerText = `${nomsDispo[i]} - ${prixDispo[i]} £`;
+    disponibleElement.appendChild(nomElement);
+}
+
+// ajout de l'en-tête puis de la liste au bloc résultats filtres 
+document.querySelector(".disponibles").appendChild(disponibleElement);
+
+
+// Efface le contenu de la balise body et donc l’écran
+// document.querySelector(".fiches").innerHTML = '';
 
 
 
