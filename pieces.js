@@ -1,7 +1,23 @@
 import { ajoutListenersAvis, ajoutListenerEnvoyerAvis } from "./avis.js";
+//Récupération des pièces éventuellement stockées dans le localStorage
+let pieces = window.localStorage.getItem("pieces");
+if(pieces === null) {
 // Récupération des pièces depuis le fichier JSON
 const reponse = await fetch(`http://localhost:8081/pieces`);
-const pieces = await reponse.json();
+ pieces = await reponse.json();
+
+//equivalence de deux première lignes 
+// const pieces = await fetch("http://localhost:8081/pieces").then(pieces => pieces.json());
+//**********utilisation du localStorage***************//
+//Transformation des pièces en JSON 
+const valeurPieces = JSON.stringify(pieces);
+
+// Stockage des informations dans le localStorage
+window.localStorage.setItem("peices", valeurPieces);
+}else {
+    pieces = JSON.parse(pieces);
+}
+
 
 function genererPieces(pieces){
     for (let i = 0; i < pieces.length; i++) {
@@ -155,4 +171,14 @@ maxPrix.addEventListener("change", function() {
     genererPieces(maxFilters);
 
 })
+
+// utilsation du localStorage 
+// supprimer le fichier qui se trouve dans le local storage 
+const btnMajPieces = document.querySelector(".btn-maj");
+btnMajPieces.addEventListener("click" ,function () {
+    console.log("btnMajPieces");
+window.localStorage.removeItem("pieces");
+});
+
+
 

@@ -5,8 +5,22 @@ export function ajoutListenersAvis() {
       piecesElements[i].addEventListener("click", async function (event) {
 
         const id = event.target.dataset.id;
+        let avis = window.localStorage.getItem("avis");
+        if(avis === null) {
         const reponse = await fetch(`http://localhost:8081/pieces/${id}/avis`);
-        const avis = await reponse.json();
+        avis = await reponse.json();
+        //equivalence de deux première lignes 
+        // const avis = await fetch("http://localhost:8081/avis").then(avis => avis.json());
+        //**********utilisation du localStorage***************//
+        //Transformation des pièces en JSON 
+        const valeuravis = JSON.stringify(avis);
+        
+        // Stockage des informations dans le localStorage
+        window.localStorage.setItem("peices", valeuravis);
+        }else {
+            avis = JSON.parse(avis);
+        }      
+
 
 
         const pieceElement = event.target.parentElement;
@@ -30,7 +44,7 @@ const avis = {
   pieceId: parseInt(event.target.querySelector("[name=piece-id]").value),
   utilisateur: event.target.querySelector("[name=utilisateur").value,
   commentaire: event.target.querySelector("[name=commentaire]").value,
-  nbEtoiles: parseInt(event.target.querySelector("[name=nbEtoiles]").value),
+  nbEtoiles: parseInt(event.target.querySelector("[name=nbEtoiles]").value)
 };
 
 // Création de la charge utile au format JSON
